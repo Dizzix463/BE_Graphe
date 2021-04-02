@@ -56,7 +56,7 @@ public class Path {
     public static Path createShortestPathFromNodes(Graph graph, List<Node> nodes)
             throws IllegalArgumentException {
         List<Arc> arcs = new ArrayList<Arc>();
-        // TODO:
+        
         return new Path(graph, arcs);
     }
 
@@ -201,8 +201,17 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public boolean isValid() {
-        // TODO:
-        return false;
+        boolean valid = false;
+        int consecutive = 0;
+        for (int i = 0; i < this.getArcs().size()-1; i++) {
+            if (this.getArcs().get(i).getDestination() == this.getArcs().get(i+1).getOrigin()){
+                consecutive += 1;
+            }
+        }
+        if ((this.getArcs() == null) || (this.size()==1) || ((this.getArcs().get(0).getOrigin() == this.getOrigin()) && (consecutive == this.getArcs().size() -2))){
+            valid = true;
+        }
+        return valid;
     }
 
     /**
@@ -213,7 +222,7 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public float getLength() {
-        float total_length = 0;
+        float total_length = 0.0f;
         for (int i = 0; i < this.getArcs().size(); i++) {
             total_length += this.getArcs().get(i).getLength();
         }
@@ -231,8 +240,11 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public double getTravelTime(double speed) {
-        // TODO:
-        return 0;
+        double travel_time = 0;
+        for (int i = 0; i < this.getArcs().size(); i++) {
+            travel_time += this.getArcs().get(i).getTravelTime(speed);
+        }
+        return travel_time;
     }
 
     /**
@@ -244,8 +256,11 @@ public class Path {
      * @deprecated Need to be implemented.
      */
     public double getMinimumTravelTime() {
-        // TODO:
-        return 0;
+        double min_travel_time = 0;
+        for (int i = 0; i < this.getArcs().size(); i++) {
+            min_travel_time += this.getArcs().get(i).getMinimumTravelTime();
+        }
+        return min_travel_time;
     }
 
 }
