@@ -43,16 +43,16 @@ public class Label implements Comparable<Label> {
         this.fatherId = fatherId;
     }
 
-    public double getTotalCost(){
+    public double getTotalCost() {
         return this.cost;
     }
 
-    public double getEstimateCost(){
+    public double getEstimateCost() {
         return 0;
     }
 
     @Override
     public int compareTo(Label arg0) {
-        return Double.compare(this.cost, arg0.cost);
+        return Double.compare(this.getTotalCost(), arg0.getTotalCost());
     }
 }
