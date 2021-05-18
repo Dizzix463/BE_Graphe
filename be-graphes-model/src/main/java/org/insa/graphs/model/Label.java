@@ -2,21 +2,21 @@ package org.insa.graphs.model;
 
 public class Label implements Comparable<Label> {
 
-    private int nodeId;
+    private Node node;
     private boolean mark;
     private double cost;
     private int fatherId;
 
     /* Constructeur */
-    public Label(int nodeId, boolean mark, double cost, int fatherId) {
-        this.nodeId = nodeId;
+    public Label(Node node, boolean mark, double cost, int fatherId) {
+        this.node = node;
         this.mark = mark;
         this.cost = cost;
         this.fatherId = fatherId;
     }
 
-    public int getNodeId() {
-        return this.nodeId;
+    public Node getNode() {
+        return this.node;
     }
 
     public double getCost() {
@@ -41,6 +41,14 @@ public class Label implements Comparable<Label> {
 
     public void setFatherId(int fatherId) {
         this.fatherId = fatherId;
+    }
+
+    public double getTotalCost(){
+        return cost;
+    }
+
+    public double getEstimateCost(){
+        return 0;
     }
 
     @Override

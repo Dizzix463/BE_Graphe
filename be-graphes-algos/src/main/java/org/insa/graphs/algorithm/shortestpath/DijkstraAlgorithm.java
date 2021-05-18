@@ -16,18 +16,23 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         super(data);
     }
 
+    Label[] initTabLabel(int nbNode, ShortestPathData data) {
+        Label[] labelTab = new Label[nbNode];
+        Graph graph = data.getGraph();
+        for (int i = 0; i < nbNode; i++) {
+            labelTab[i] = new Label(graph.get(i), false, Double.POSITIVE_INFINITY, -1);
+        }
+        return labelTab;
+    }
+
     @Override
     protected ShortestPathSolution doRun() {
 
         final ShortestPathData data = getInputData();
-
         Graph graph = data.getGraph();
-        Label[] labels = new Label[graph.size()];
 
-        /* Associate a label for a node */
-        for (int i = 0; i < graph.size(); i++) {
-            labels[i] = new Label(i, false, Double.POSITIVE_INFINITY, -1);
-        }
+        /* Init the table of labels */
+        Label[] labels = initTabLabel(graph.size(), data);
 
         /* Initialize the origin */
         labels[data.getOrigin().getId()].setCost(0);
@@ -59,26 +64,27 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                 binaryHeap.remove(currentNodeLabel);
             } catch (ElementNotFoundException ignored) {
             }
-            labels[currentNodeLabel.getNodeId()].setMark(true);
+            labels[currentNodeLabel.getNode().getId()].setMark(true);
 
-            for (Arc successor : graph.get(currentNodeLabel.getNodeId()).getSuccessors()) {
+            for (Arc successor : graph.get(currentNodeLabel.getNode().getId()).getSuccessors()) {
                 if (!data.isAllowed(successor))
                     continue;
 
+                int currentNodeId = successor.getOrigin().getId();
                 int nextNodeId = successor.getDestination().getId();
                 if (!labels[nextNodeId].isMark()) {
-                    double w = data.getCost(successor);
-                    double oldDistance = labels[nextNodeId].getCost();
-                    double newDistance = labels[currentNodeLabel.getNodeId()].getCost() + w;
+                    double oldCost = labels[nextNodeId].getTotalCost();
+                    double w = data.getCost(successor) + labels[nextNodeId].getEstimateCost();
+                    double newCost = labels[currentNodeId].getCost() + w;
 
-                    if (Double.isInfinite(oldDistance) && Double.isFinite(newDistance)) {
+                    if (Double.isInfinite(oldCost) && Double.isFinite(newCost)) {
                         notifyNodeReached(successor.getDestination());
                     }
 
                     /* Check if new distances would be better, if so update */
-                    if (newDistance < oldDistance) {
-                        labels[nextNodeId].setCost(newDistance);
-                        labels[nextNodeId].setFatherId(currentNodeLabel.getNodeId());
+                    if (newCost < oldCost) {
+                        labels[nextNodeId].setCost(labels[currentNodeId].getCost() + data.getCost(successor));
+                        labels[nextNodeId].setFatherId(currentNodeLabel.getNode().getId());
 
                         try {
                             /* Update the node in the binaryHeap */

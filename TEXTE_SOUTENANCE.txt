@@ -1,0 +1,7 @@
+/** BE Graphes - Plus court chemin en A* **/
+
+Le coût estimé entre un sommet donné et la destination se base sur un trajet à vol d'oiseau entre les deux sommets 
+et doit être une borne inférieure du coût réel pour garantir l'optimalité du résultat.
+
+Pour éviter de dire des âneries à la soutenance, notez d'emblée que cet algorithme dérivé de A-star doit fournir le plus court chemin.
+(et non pas une simple approximation)
