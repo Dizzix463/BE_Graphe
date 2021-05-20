@@ -12,6 +12,21 @@ import org.insa.graphs.model.AccessRestrictions.AccessRestriction;
 
 public class ArcInspectorFactory {
 
+    public enum FilterType {
+        ALL_ROADS_AND_LENGTH(0), ONLY_CARS_AND_LENGTH(1), ALL_ROADS_AND_TIME(2), ONLY_CARS_AND_TIME(3),
+        PEDESTRIAN_AND_TIME(4);
+
+        private final int value;
+
+        FilterType(final int value) {
+            this.value = value;
+        }
+
+        public int getValue() {
+            return value;
+        }
+    }
+
     /**
      * @return List of all arc filters in this factory.
      */
@@ -52,9 +67,8 @@ public class ArcInspectorFactory {
         filters.add(new ArcInspector() {
             @Override
             public boolean isAllowed(Arc arc) {
-                return arc.getRoadInformation().getAccessRestrictions()
-                        .isAllowedForAny(AccessMode.MOTORCAR, EnumSet.complementOf(EnumSet
-                                .of(AccessRestriction.FORBIDDEN, AccessRestriction.PRIVATE)));
+                return arc.getRoadInformation().getAccessRestrictions().isAllowedForAny(AccessMode.MOTORCAR,
+                        EnumSet.complementOf(EnumSet.of(AccessRestriction.FORBIDDEN, AccessRestriction.PRIVATE)));
             }
 
             @Override
@@ -110,9 +124,8 @@ public class ArcInspectorFactory {
         filters.add(new ArcInspector() {
             @Override
             public boolean isAllowed(Arc arc) {
-                return arc.getRoadInformation().getAccessRestrictions()
-                        .isAllowedForAny(AccessMode.MOTORCAR, EnumSet.complementOf(EnumSet
-                                .of(AccessRestriction.FORBIDDEN, AccessRestriction.PRIVATE)));
+                return arc.getRoadInformation().getAccessRestrictions().isAllowedForAny(AccessMode.MOTORCAR,
+                        EnumSet.complementOf(EnumSet.of(AccessRestriction.FORBIDDEN, AccessRestriction.PRIVATE)));
             }
 
             @Override
@@ -141,15 +154,13 @@ public class ArcInspectorFactory {
 
             @Override
             public boolean isAllowed(Arc arc) {
-                return arc.getRoadInformation().getAccessRestrictions()
-                        .isAllowedForAny(AccessMode.FOOT, EnumSet.complementOf(EnumSet
-                                .of(AccessRestriction.FORBIDDEN, AccessRestriction.PRIVATE)));
+                return arc.getRoadInformation().getAccessRestrictions().isAllowedForAny(AccessMode.FOOT,
+                        EnumSet.complementOf(EnumSet.of(AccessRestriction.FORBIDDEN, AccessRestriction.PRIVATE)));
             }
 
             @Override
             public double getCost(Arc arc) {
-                return arc.getTravelTime(
-                        Math.min(getMaximumSpeed(), arc.getRoadInformation().getMaximumSpeed()));
+                return arc.getTravelTime(Math.min(getMaximumSpeed(), arc.getRoadInformation().getMaximumSpeed()));
             }
 
             @Override

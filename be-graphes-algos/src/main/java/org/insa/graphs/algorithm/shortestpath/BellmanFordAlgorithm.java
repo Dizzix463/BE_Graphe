@@ -41,8 +41,8 @@ public class BellmanFordAlgorithm extends ShortestPathAlgorithm {
         boolean found = false;
         for (int i = 0; !found && i < nbNodes; ++i) {
             found = true;
-            for (Node node: graph.getNodes()) {
-                for (Arc arc: node.getSuccessors()) {
+            for (Node node : graph.getNodes()) {
+                for (Arc arc : node.getSuccessors()) {
 
                     // Small test to check allowed roads...
                     if (!data.isAllowed(arc)) {
@@ -71,10 +71,11 @@ public class BellmanFordAlgorithm extends ShortestPathAlgorithm {
         ShortestPathSolution solution = null;
 
         // Destination has no predecessor, the solution is infeasible...
-        if (predecessorArcs[data.getDestination().getId()] == null) {
+        if (data.getOrigin().equals(data.getDestination())) {
+            solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, data.getOrigin()));
+        } else if (predecessorArcs[data.getDestination().getId()] == null) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
-        }
-        else {
+        } else {
 
             // The destination has been found, notify the observers.
             notifyDestinationReached(data.getDestination());
