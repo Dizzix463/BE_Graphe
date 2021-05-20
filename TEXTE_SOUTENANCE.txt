@@ -5,3 +5,16 @@ et doit être une borne inférieure du coût réel pour garantir l'optimalité d
 
 Pour éviter de dire des âneries à la soutenance, notez d'emblée que cet algorithme dérivé de A-star doit fournir le plus court chemin.
 (et non pas une simple approximation)
+
+TEST MODULAIRES :
+/** CARTE UTILISÉE : TOULOUSE **/
+
+Test 1 Entre Bellman-Ford & Dijsktra :
+Origin : 5976
+Destination : 16315
+Shortest Path all roads : Same path
+
+Test 2 Entre Bellman-Ford & Dijsktra :
+Origin : 5976
+Destination : 16315
+Shortest Path all roads : Same path

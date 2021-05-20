@@ -16,7 +16,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         super(data);
     }
 
-    Label[] initTabLabel(int nbNode, ShortestPathData data) {
+    public Label[] initTabLabel(int nbNode, ShortestPathData data) {
         Label[] labelTab = new Label[nbNode];
         Graph graph = data.getGraph();
         for (int i = 0; i < nbNode; i++) {
@@ -46,7 +46,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         /* Notify to the Observer */
         notifyOriginProcessed(data.getOrigin());
 
-        /* Main algorithme */
+        /* Main algorithm */
         while (!labels[data.getDestination().getId()].isMark()) {
             Label currentNodeLabel;
             try {
@@ -67,6 +67,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             labels[currentNodeLabel.getNode().getId()].setMark(true);
 
             for (Arc successor : graph.get(currentNodeLabel.getNode().getId()).getSuccessors()) {
+                
+                /* Verify if the road is allowed */
                 if (!data.isAllowed(successor))
                     continue;
 
@@ -74,8 +76,8 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                 int nextNodeId = successor.getDestination().getId();
                 if (!labels[nextNodeId].isMark()) {
                     double oldCost = labels[nextNodeId].getTotalCost();
-                    double w = data.getCost(successor) + labels[nextNodeId].getEstimateCost();
-                    double newCost = labels[currentNodeId].getCost() + w;
+                    double trans = data.getCost(successor) + labels[nextNodeId].getEstimateCost();
+                    double newCost = labels[currentNodeId].getCost() + trans;
 
                     if (Double.isInfinite(oldCost) && Double.isFinite(newCost)) {
                         notifyNodeReached(successor.getDestination());
@@ -87,10 +89,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                         labels[nextNodeId].setFatherId(currentNodeLabel.getNode().getId());
 
                         try {
+                           
                             /* Update the node in the binaryHeap */
                             binaryHeap.remove(labels[nextNodeId]);
                             binaryHeap.insert(labels[nextNodeId]);
                         } catch (ElementNotFoundException e) {
+                            
                             /* If the node is not in the binaryHeap, insert it */
                             binaryHeap.insert(labels[nextNodeId]);
                         }

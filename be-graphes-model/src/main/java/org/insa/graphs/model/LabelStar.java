@@ -1,5 +1,8 @@
 package org.insa.graphs.model;
 
+/**
+ * LabelStar inherits from the class Label
+ */
 public class LabelStar extends Label {
 
     private double estimate_cost;
