@@ -69,16 +69,19 @@ public abstract class CompareShortestPathAlgorithmTest {
 
                 /* Haute-Garonne fastest path test solution */
                 final String timeTestPathName = "C:/Users/romro/Desktop/git/Graphes/Maps/path/path_fr31_time_test.path";
+                /* Create a fastest solution test */
                 ShortestPathSolution timeTestSolution = createRegularTestSolution(graph, timeTestPathName,
                                 FilterType.ALL_ROADS_AND_TIME);
 
                 /* Haute-Garonne shortest path test solution */
                 final String lengthTestPathName = "C:/Users/romro/Desktop/git/Graphes/Maps/path/path_fr31_length_test.path";
+                /* Create a shortest solution test */
                 ShortestPathSolution lengthTestSolution = createRegularTestSolution(graph, lengthTestPathName,
                                 FilterType.ALL_ROADS_AND_LENGTH);
 
                 /* Haute-Garonne only roads for cars test path solution */
                 final String roadsForCarsPathName = "C:/Users/romro/Desktop/git/Graphes/Maps/path/path_fr31_roads_for_cars_test.path";
+                /* Create an only cars and length solution test */
                 ShortestPathSolution roadsForCarsSolution = createRegularTestSolution(graph, roadsForCarsPathName,
                                 FilterType.ONLY_CARS_AND_LENGTH);
 
@@ -87,6 +90,7 @@ public abstract class CompareShortestPathAlgorithmTest {
                                 graph.get(15), getAllFilters().get(FilterType.ALL_ROADS_AND_LENGTH.getValue()));
                 final Path originEqualsDestinationPath = new Path(originEqualsDestinationTestData.getGraph(),
                                 originEqualsDestinationTestData.getOrigin());
+                /* Create an origin equal destination solution test */
                 ShortestPathSolution originEqualsDestinationSolution = new ShortestPathSolution(
                                 originEqualsDestinationTestData, Status.OPTIMAL, originEqualsDestinationPath);
 
