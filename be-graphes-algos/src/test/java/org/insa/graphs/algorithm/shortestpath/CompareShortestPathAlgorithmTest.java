@@ -27,7 +27,7 @@ import static org.junit.runners.Parameterized.Parameter;
 import static org.junit.runners.Parameterized.Parameters;
 
 @RunWith(Parameterized.class)
-public abstract class ShortestPathAlgorithmTest {
+public abstract class CompareShortestPathAlgorithmTest {
 
         public abstract ShortestPathAlgorithm launchTestShortestPathAlgorithm(ShortestPathData data);
 
@@ -64,7 +64,7 @@ public abstract class ShortestPathAlgorithmTest {
                 final Graph graph = graphReader.read(); /* Read the map */
 
                 /**
-                 * TEST PATHS : Fastest; Shortest; Only cars; Destination = Origin; Infeasible
+                 * TEST PATHS : Fastest/Shortest/Only cars/Destination = Origin/Infeasible paths
                  */
 
                 /* Haute-Garonne fastest path test solution */
