@@ -46,8 +46,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     private void arraySet(int index, E value) {
         if (index == this.array.size()) {
             this.array.add(value);
-        }
-        else {
+        } else {
             this.array.set(index, value);
         }
     }
@@ -74,9 +73,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
     private void percolateUp(int index) {
         E x = this.array.get(index);
 
-        for (; index > 0
-                && x.compareTo(this.array.get(indexParent(index))) < 0; index = indexParent(
-                        index)) {
+        for (; index > 0 && x.compareTo(this.array.get(indexParent(index))) < 0; index = indexParent(index)) {
             E moving_val = this.array.get(indexParent(index));
             this.arraySet(index, moving_val);
         }
@@ -106,8 +103,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
                     this.arraySet(ileft, current);
                     this.percolateDown(ileft);
                 }
-            }
-            else {
+            } else {
                 // Right is smaller
                 if (right.compareTo(current) < 0) {
                     this.arraySet(index, right);
@@ -135,33 +131,91 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
         this.percolateUp(index);
     }
 
-    @Override
-    public void remove(E x) throws ElementNotFoundException {
-        if(this.isEmpty()){
+    public int findIndexOf(E x, int currentIndex) throws ElementNotFoundException {
+        /*
+         * (1) On teste si l'élément est au currentIndex (2) On teste si l'élément est
+         * au fils gauche du currentIndex (3) On teste si l'élément est au fils droit du
+         * currentIndex (4) On teste si l'élément peut être dans le sous arbre gauche
+         * (5) On teste si l'élément peut être dans le sous arbre droit
+         */
+
+        // If the heap is empty, ElementNotFoundException raised
+        if (this.currentSize == 0) {
             throw new ElementNotFoundException(x);
         }
 
-        int index = this.array.indexOf(x);
-        if(index == -1) {
+        // The element can be the first element of the heap
+        if (x.compareTo(this.array.get(currentIndex)) == 0) {
+            return currentIndex;
+        }
+
+        // The element can be on the right side of the tree
+        int indRight = indexLeft(currentIndex) + 1;
+        boolean hasRight = indRight < this.currentSize;
+
+        if (hasRight) {
+            // The element can be the root of the right tree
+            if (x.compareTo(this.array.get(indRight)) == 0) {
+                return indRight;
+            }
+
+            else if (x.compareTo(this.array.get(indRight)) > 0) {
+                return findIndexOf(x, indRight);
+            }
+
+            else {
+                throw new ElementNotFoundException(x);
+            }
+
+        }
+
+        // The element can be on the left side of the tree
+        int indLeft = indexLeft(currentIndex);
+        boolean hasLeft = indLeft < this.currentSize;
+
+        if (hasLeft) {
+            if (x.compareTo(this.array.get(indLeft)) == 0) {
+                return indLeft;
+            }
+
+            else if (x.compareTo(this.array.get(indLeft)) > 0) {
+                return findIndexOf(x, indLeft);
+            }
+
+            else {
+                throw new ElementNotFoundException(x);
+            }
+        }
+
+        throw new ElementNotFoundException(x);
+    }
+
+    @Override
+    public void remove(E x) throws ElementNotFoundException {
+        if (this.isEmpty()) {
             throw new ElementNotFoundException(x);
-        } 
-        
+        }
+
+        int index = findIndexOf(x, 0);
+        if (index == -1) {
+            throw new ElementNotFoundException(x);
+        }
+
         E previousElement = this.array.get(--this.currentSize);
         this.arraySet(index, previousElement);
-        
+
         boolean hasIndex;
-        if (index !=0){
+        if (index != 0) {
             hasIndex = true;
         } else {
             hasIndex = false;
         }
 
-        if (hasIndex && previousElement.compareTo(array.get(indexParent(index))) < 0){
+        if (hasIndex && previousElement.compareTo(array.get(indexParent(index))) < 0) {
             percolateUp(index);
         } else {
             percolateDown(index);
         }
-
 
     }
 

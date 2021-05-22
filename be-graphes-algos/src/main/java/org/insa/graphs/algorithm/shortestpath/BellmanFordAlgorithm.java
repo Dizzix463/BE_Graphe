@@ -71,9 +71,7 @@ public class BellmanFordAlgorithm extends ShortestPathAlgorithm {
         ShortestPathSolution solution = null;
 
         // Destination has no predecessor, the solution is infeasible...
-        if (data.getOrigin().equals(data.getDestination())) {
-            solution = new ShortestPathSolution(data, Status.OPTIMAL, new Path(graph, data.getOrigin()));
-        } else if (predecessorArcs[data.getDestination().getId()] == null) {
+        if (predecessorArcs[data.getDestination().getId()] == null) {
             solution = new ShortestPathSolution(data, Status.INFEASIBLE);
         } else {
 

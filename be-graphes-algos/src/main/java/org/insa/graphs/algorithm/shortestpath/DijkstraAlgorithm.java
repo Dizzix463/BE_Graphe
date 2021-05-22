@@ -67,7 +67,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
             labels[currentNodeLabel.getNode().getId()].setMark(true);
 
             for (Arc successor : graph.get(currentNodeLabel.getNode().getId()).getSuccessors()) {
-                
+
                 /* Verify if the road is allowed */
                 if (!data.isAllowed(successor))
                     continue;
@@ -89,12 +89,12 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
                         labels[nextNodeId].setFatherId(currentNodeLabel.getNode().getId());
 
                         try {
-                           
+
                             /* Update the node in the binaryHeap */
                             binaryHeap.remove(labels[nextNodeId]);
                             binaryHeap.insert(labels[nextNodeId]);
                         } catch (ElementNotFoundException e) {
-                            
+
                             /* If the node is not in the binaryHeap, insert it */
                             binaryHeap.insert(labels[nextNodeId]);
                         }

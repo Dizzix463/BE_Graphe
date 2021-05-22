@@ -7,9 +7,14 @@ public class LabelStar extends Label {
 
     private double estimate_cost;
 
-    public LabelStar(Node node, boolean mark, double cost, int fatherId, Node destNode) {
+    public LabelStar(Node node, boolean mark, double cost, int fatherId, Node destNode, boolean Mode) {
         super(node, mark, cost, fatherId);
-        this.estimate_cost = node.getPoint().distanceTo(destNode.getPoint());
+
+        if (Mode) {
+            this.estimate_cost = node.getPoint().distanceTo(destNode.getPoint());
+        } else {
+            this.estimate_cost = node.getPoint().distanceTo(destNode.getPoint()) / 25d;
+        }
     }
 
     @Override
@@ -19,6 +24,6 @@ public class LabelStar extends Label {
 
     @Override
     public double getTotalCost() {
-        return this.getCost() + this.estimate_cost;
+        return getCost() + estimate_cost;
     }
 }

@@ -35,7 +35,7 @@ public class ArcInspectorFactory {
 
         // Common filters:
 
-        // No filter (all arcs allowed):
+        // No filter (all arcs allowed) and length:
         filters.add(new ArcInspector() {
             @Override
             public boolean isAllowed(Arc arc) {
@@ -92,8 +92,7 @@ public class ArcInspectorFactory {
             }
         });
 
-        // Only road allowed for cars and time:
-
+        // All roads allowed and time
         filters.add(new ArcInspector() {
             @Override
             public boolean isAllowed(Arc arc) {
@@ -121,6 +120,7 @@ public class ArcInspectorFactory {
             }
         });
 
+        // Only road allowed for cars and time:
         filters.add(new ArcInspector() {
             @Override
             public boolean isAllowed(Arc arc) {
@@ -149,7 +149,7 @@ public class ArcInspectorFactory {
             }
         });
 
-        // Non-private roads for pedestrian and bicycle:
+        // Non-private roads for pedestrian and bicycle and time:
         filters.add(new ArcInspector() {
 
             @Override
