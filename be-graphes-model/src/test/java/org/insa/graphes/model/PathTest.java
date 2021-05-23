@@ -30,8 +30,7 @@ public class PathTest {
     private static Arc a2b, a2c, a2e, b2c, c2d_1, c2d_2, c2d_3, c2a, d2a, d2e, e2d;
 
     // Some paths...
-    private static Path emptyPath, singleNodePath, shortPath, longPath, loopPath, longLoopPath,
-            invalidPath;
+    private static Path emptyPath, singleNodePath, shortPath, longPath, loopPath, longLoopPath, invalidPath;
 
     @BeforeClass
     public static void initAll() throws IOException {
@@ -65,8 +64,7 @@ public class PathTest {
         shortPath = new Path(graph, Arrays.asList(new Arc[] { a2b, b2c, c2d_1 }));
         longPath = new Path(graph, Arrays.asList(new Arc[] { a2b, b2c, c2d_1, d2e }));
         loopPath = new Path(graph, Arrays.asList(new Arc[] { a2b, b2c, c2d_1, d2a }));
-        longLoopPath = new Path(graph,
-                Arrays.asList(new Arc[] { a2b, b2c, c2d_1, d2a, a2c, c2d_3, d2a, a2b, b2c }));
+        longLoopPath = new Path(graph, Arrays.asList(new Arc[] { a2b, b2c, c2d_1, d2a, a2c, c2d_3, d2a, a2b, b2c }));
         invalidPath = new Path(graph, Arrays.asList(new Arc[] { a2b, c2d_1, d2e }));
 
     }
@@ -166,8 +164,7 @@ public class PathTest {
         Arc[] expected;
 
         // Simple construction
-        path = Path.createFastestPathFromNodes(graph,
-                Arrays.asList(new Node[] { nodes[0], nodes[1], nodes[2] }));
+        path = Path.createFastestPathFromNodes(graph, Arrays.asList(new Node[] { nodes[0], nodes[1], nodes[2] }));
         expected = new Arc[] { a2b, b2c };
         assertEquals(expected.length, path.getArcs().size());
         for (int i = 0; i < expected.length; ++i) {
@@ -201,8 +198,7 @@ public class PathTest {
         Arc[] expected;
 
         // Simple construction
-        path = Path.createShortestPathFromNodes(graph,
-                Arrays.asList(new Node[] { nodes[0], nodes[1], nodes[2] }));
+        path = Path.createShortestPathFromNodes(graph, Arrays.asList(new Node[] { nodes[0], nodes[1], nodes[2] }));
         expected = new Arc[] { a2b, b2c };
         assertEquals(expected.length, path.getArcs().size());
         for (int i = 0; i < expected.length; ++i) {

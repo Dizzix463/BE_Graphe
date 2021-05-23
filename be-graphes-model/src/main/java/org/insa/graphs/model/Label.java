@@ -7,14 +7,13 @@ public class Label implements Comparable<Label> {
     protected double cost;
     protected int fatherId;
 
-    /* Constructeur */
+    /* Constructor */
     public Label(Node node, boolean mark, double cost, int fatherId) {
         this.node = node;
         this.mark = mark;
         this.cost = cost;
         this.fatherId = fatherId;
     }
-
 
     /**
      * ALL GETTERS
@@ -58,7 +57,6 @@ public class Label implements Comparable<Label> {
     public void setFatherId(int fatherId) {
         this.fatherId = fatherId;
     }
-
 
     @Override
     public int compareTo(Label arg0) {

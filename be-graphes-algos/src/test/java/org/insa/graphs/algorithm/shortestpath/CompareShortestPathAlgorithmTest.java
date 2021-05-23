@@ -1,30 +1,20 @@
 package org.insa.graphs.algorithm.shortestpath;
 
-import org.insa.graphs.model.Graph;
-import org.insa.graphs.model.Path;
-import org.insa.graphs.model.io.BinaryGraphReader;
-import org.insa.graphs.model.io.BinaryPathReader;
-import org.insa.graphs.model.io.GraphReader;
-import org.insa.graphs.model.io.PathReader;
-import org.junit.Assume;
-import org.junit.Before;
-import org.junit.Test;
+import org.insa.graphs.model.*;
+import org.insa.graphs.model.io.*;
+
+import java.io.*;
+
+import java.util.*;
+
+import org.junit.*;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 
-import java.io.BufferedInputStream;
-import java.io.DataInputStream;
-import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.Collection;
-
 import static org.insa.graphs.algorithm.AbstractSolution.Status;
-import static org.insa.graphs.algorithm.ArcInspectorFactory.FilterType;
-import static org.insa.graphs.algorithm.ArcInspectorFactory.getAllFilters;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-import static org.junit.runners.Parameterized.Parameter;
-import static org.junit.runners.Parameterized.Parameters;
+import static org.insa.graphs.algorithm.ArcInspectorFactory.*;
+import static org.junit.Assert.*;
+import static org.junit.runners.Parameterized.*;
 
 @RunWith(Parameterized.class)
 public abstract class CompareShortestPathAlgorithmTest {
@@ -54,54 +44,55 @@ public abstract class CompareShortestPathAlgorithmTest {
                 Collection<Object> objects = new ArrayList<>();
 
                 /**
-                 * TEST MAP : Haute-Garonne
+                 * Import Test Paths :Fastest/Shortest/Onlycars/Destination = Origin/Infeasible
+                 * Import Test Map : Haute-Garonne
                  */
 
                 /* Insert the Haute-Garonne test map */
                 final String hauteGaronneMapPathName = "C:/Users/romro/Desktop/git/Graphes/Maps/haute-garonne.mapgr";
+                /* Read the map */
                 final GraphReader graphReader = new BinaryGraphReader(new DataInputStream(
                                 new BufferedInputStream(new FileInputStream(hauteGaronneMapPathName))));
-                final Graph graph = graphReader.read(); /* Read the map */
-
-                /**
-                 * TEST PATHS : Fastest/Shortest/Only cars/Destination = Origin/Infeasible paths
-                 */
-
+                final Graph graph = graphReader.read();
                 /* Haute-Garonne fastest path test solution */
                 final String timeTestPathName = "C:/Users/romro/Desktop/git/Graphes/Maps/path/path_fr31_time_test.path";
-                /* Create a fastest solution test */
-                ShortestPathSolution timeTestSolution = createRegularTestSolution(graph, timeTestPathName,
-                                FilterType.ALL_ROADS_AND_TIME);
-
                 /* Haute-Garonne shortest path test solution */
                 final String lengthTestPathName = "C:/Users/romro/Desktop/git/Graphes/Maps/path/path_fr31_length_test.path";
-                /* Create a shortest solution test */
-                ShortestPathSolution lengthTestSolution = createRegularTestSolution(graph, lengthTestPathName,
-                                FilterType.ALL_ROADS_AND_LENGTH);
-
                 /* Haute-Garonne only roads for cars test path solution */
                 final String roadsForCarsPathName = "C:/Users/romro/Desktop/git/Graphes/Maps/path/path_fr31_roads_for_cars_test.path";
-                /* Create an only cars and length solution test */
-                ShortestPathSolution roadsForCarsSolution = createRegularTestSolution(graph, roadsForCarsPathName,
-                                FilterType.ONLY_CARS_AND_LENGTH);
-
                 /* Haute-Garonne origin equals destination */
                 ShortestPathData originEqualsDestinationTestData = new ShortestPathData(graph, graph.get(15),
                                 graph.get(15), getAllFilters().get(FilterType.ALL_ROADS_AND_LENGTH.getValue()));
                 final Path originEqualsDestinationPath = new Path(originEqualsDestinationTestData.getGraph(),
                                 originEqualsDestinationTestData.getOrigin());
-                /* Create an origin equal destination solution test */
-                ShortestPathSolution originEqualsDestinationSolution = new ShortestPathSolution(
-                                originEqualsDestinationTestData, Status.OPTIMAL, originEqualsDestinationPath);
-
                 /* Haute-Garonne unreachable destination */
                 ShortestPathData unreachableDestinationData = new ShortestPathData(graph, graph.get(120349),
                                 graph.get(120351), getAllFilters().get(FilterType.ALL_ROADS_AND_LENGTH.getValue()));
+
+                /**
+                 * Create test paths solutions
+                 */
+
+                /* Create a fastest solution test */
+                ShortestPathSolution timeTestSolution = createRegularTestSolution(graph, timeTestPathName,
+                                FilterType.ALL_ROADS_AND_TIME);
+
+                /* Create a shortest solution test */
+                ShortestPathSolution lengthTestSolution = createRegularTestSolution(graph, lengthTestPathName,
+                                FilterType.ALL_ROADS_AND_LENGTH);
+
+                /* Create an only cars and length solution test */
+                ShortestPathSolution roadsForCarsSolution = createRegularTestSolution(graph, roadsForCarsPathName,
+                                FilterType.ONLY_CARS_AND_LENGTH);
+                /* Create an origin equal destination solution test */
+                ShortestPathSolution originEqualsDestinationSolution = new ShortestPathSolution(
+                                originEqualsDestinationTestData, Status.OPTIMAL, originEqualsDestinationPath);
+                /* Create an unreachable path test */
                 ShortestPathSolution unreachableDestinationPath = new ShortestPathSolution(unreachableDestinationData,
                                 Status.INFEASIBLE);
 
                 /**
-                 * TEST CALLS
+                 * Test calls
                  */
 
                 objects.add(new TestParameters(timeTestSolution.getInputData(), timeTestSolution, "Fastest test"));
@@ -135,12 +126,12 @@ public abstract class CompareShortestPathAlgorithmTest {
         private ShortestPathSolution computedSolution;
 
         /**
-         * Run the algorithm to test (DijkstraAlgorithm, AStarAlgorithm...)
+         * Run the algorithm (DijkstraAlgorithm, AStarAlgorithm...)
          */
         @Before
-        public void init() {
-                ShortestPathAlgorithm algorithm = launchTestShortestPathAlgorithm(parameters.data);
-                computedSolution = algorithm.doRun();
+        public void init() throws IOException {
+                ShortestPathAlgorithm launchAlgorithm = launchTestShortestPathAlgorithm(parameters.data);
+                computedSolution = launchAlgorithm.doRun();
         }
 
         /**

@@ -139,17 +139,17 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
          * (5) On teste si l'élément peut être dans le sous arbre droit
          */
 
-        // If the heap is empty, ElementNotFoundException raised
+        /* If the heap is empty, ElementNotFoundException raised */
         if (this.currentSize == 0) {
             throw new ElementNotFoundException(x);
         }
 
-        // The element can be the first element of the heap
+        /* The element can be the first element of the heap */
         if (x.compareTo(this.array.get(currentIndex)) == 0) {
             return currentIndex;
         }
 
-        // The element can be on the right side of the tree
+        /* The element can be on the right side of the tree */
         int indRight = indexLeft(currentIndex) + 1;
         boolean hasRight = indRight < this.currentSize;
 
@@ -169,7 +169,7 @@ public class BinaryHeap<E extends Comparable<E>> implements PriorityQueue<E> {
 
         }
 
-        // The element can be on the left side of the tree
+        /* The element can be on the left side of the tree */
         int indLeft = indexLeft(currentIndex);
         boolean hasLeft = indLeft < this.currentSize;
 
