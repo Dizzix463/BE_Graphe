@@ -32,7 +32,7 @@ public class DijkstraAlgorithm extends ShortestPathAlgorithm {
         Graph graph = data.getGraph();
 
         /* Init the table of labels */
-        Label[] labels = initTabLabel(graph.size(), data);
+        Label[] labels = initTabLabel(graph.size(),  data);
 
         /* Initialize the origin */
         labels[data.getOrigin().getId()].setCost(0);

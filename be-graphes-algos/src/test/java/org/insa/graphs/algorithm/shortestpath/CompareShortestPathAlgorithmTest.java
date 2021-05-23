@@ -44,8 +44,8 @@ public abstract class CompareShortestPathAlgorithmTest {
                 Collection<Object> objects = new ArrayList<>();
 
                 /**
-                 * Import Test Paths :Fastest/Shortest/Onlycars/Destination = Origin/Infeasible
-                 * Import Test Map : Haute-Garonne
+                 * Import Test Paths :Fastest/Shortest/Onlycars/Destination = Origin Import Test
+                 * Map : Haute-Garonne
                  */
 
                 /* Insert the Haute-Garonne test map */
@@ -65,9 +65,6 @@ public abstract class CompareShortestPathAlgorithmTest {
                                 graph.get(15), getAllFilters().get(FilterType.ALL_ROADS_AND_LENGTH.getValue()));
                 final Path originEqualsDestinationPath = new Path(originEqualsDestinationTestData.getGraph(),
                                 originEqualsDestinationTestData.getOrigin());
-                /* Haute-Garonne unreachable destination */
-                ShortestPathData unreachableDestinationData = new ShortestPathData(graph, graph.get(120349),
-                                graph.get(120351), getAllFilters().get(FilterType.ALL_ROADS_AND_LENGTH.getValue()));
 
                 /**
                  * Create test paths solutions
@@ -87,9 +84,6 @@ public abstract class CompareShortestPathAlgorithmTest {
                 /* Create an origin equal destination solution test */
                 ShortestPathSolution originEqualsDestinationSolution = new ShortestPathSolution(
                                 originEqualsDestinationTestData, Status.OPTIMAL, originEqualsDestinationPath);
-                /* Create an unreachable path test */
-                ShortestPathSolution unreachableDestinationPath = new ShortestPathSolution(unreachableDestinationData,
-                                Status.INFEASIBLE);
 
                 /**
                  * Test calls
@@ -101,8 +95,6 @@ public abstract class CompareShortestPathAlgorithmTest {
                                 "Cars only test"));
                 objects.add(new TestParameters(originEqualsDestinationTestData, originEqualsDestinationSolution,
                                 "Destination equal origin test"));
-                objects.add(new TestParameters(unreachableDestinationData, unreachableDestinationPath,
-                                "Unfeasible test"));
 
                 return objects;
         }
